@@ -15,6 +15,7 @@ public class PageRequestDTO {
     private int page;
     private int size;
 
+
     public PageRequestDTO(){
         this.page=1;
         this.size=10;

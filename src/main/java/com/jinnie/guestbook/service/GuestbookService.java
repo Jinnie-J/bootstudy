@@ -10,6 +10,10 @@ public interface GuestbookService {
     Long register(GuestbookDTO dto);
     //게시글 조회
     GuestbookDTO read(Long gno);
+    //게시글 삭제
+    void remove(Long gno);
+    //게시글 수정
+    void modify(GuestbookDTO dto);
 
     PageResultDTO<GuestbookDTO, Guestbook> getList(PageRequestDTO requestDTO);
 
