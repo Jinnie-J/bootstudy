@@ -6,8 +6,10 @@ import com.jinnie.guestbook.entity.Guestbook;
 import com.jinnie.guestbook.dto.PageResultDTO;
 
 public interface GuestbookService {
-
+    //게시글 등록
     Long register(GuestbookDTO dto);
+    //게시글 조회
+    GuestbookDTO read(Long gno);
 
     PageResultDTO<GuestbookDTO, Guestbook> getList(PageRequestDTO requestDTO);
 
