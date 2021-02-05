@@ -12,11 +12,11 @@ import java.util.List;
 
 public interface ReviewRepository extends JpaRepository<Review,Long> {
 
-    @EntityGraph(attributePaths = {"member"}, type = EntityGraph.EntityGraphType.FETCH)
+    @EntityGraph(attributePaths = {"mmember"}, type = EntityGraph.EntityGraphType.FETCH)
     List<Review> findByMovie(Movie movie);
 
     @Modifying
-    @Query("delete from Review mr where mr.mmember= :member")
+    @Query("delete from Review mr where mr.mmember= :mmember")
     void deleteByMember(Mmember mmember);
 
 }
