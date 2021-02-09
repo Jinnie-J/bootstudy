@@ -82,7 +82,7 @@
 
         <div class="uploadResult">
             <ul>
-                <li th:each="movieImage: ${dto.imageDTOList}" >
+                <li th:each="movieImage: ${dto.imageDTOList}" th:data-file="${movieImage.getThumbnailURL()}">
                     <img th:if="${movieImage.path !=null}" th:src="|/display?fileName=${movieImage.getThumbnailURL()}|">
                 </li>
             </ul>
@@ -96,26 +96,26 @@
         <button type="button" class="btn btn-info addReviewBtn">Review Register</button>
         <div class="list-group reviewList"></div>
 
-
         <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
         <script th:src="@{/starrr.js}"></script>
         <link th:href="@{/css/starrr.css}" rel="stylesheet">
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
 
-        <script>
-            $(document).ready(function(e){
+        <script th:inline="javascript">
+            $(document).ready(function(e) {
                 var grade=0;
                 var mno=[[${dto.mno}]];
 
                 $('.starrr').starrr({
                     rating: grade,
                     change: function(e, value){
-                        if(value){
+                        if(value) {
                             console.log(value);
-                            grade= value;
+                            grade = value;
                         }
                     }
                 });
+
                 //$(".reviewModal").modal("show");
                 var reviewModal=$(".reviewModal");
                 var inputMid = $('input[name="mid"]');
@@ -189,6 +189,51 @@
                     var grade= targetReview.find('.card-title span').html();
                     $(".starrr a:nth-child("+grade+")").trigger('click');
                     $('.reviewModal').modal('show');
+                });
+
+                $(".modifyBtn").on("click", function(){
+
+                    var data = {reviewnum: reviewnum, mno:mno, grade:grade, text: inputText.val(), mid: inputMid.val()};
+                    console.log(data);
+
+                    $.ajax({
+                        url:'/reviews/'+mno+"/"+reviewnum,
+                        type:"PUT",
+                        data:JSON.stringify(data),
+                        contentType: "application/json; charset=utf-8",
+                        dataType:"text",
+                        success: function(result){
+                            console.log("result: "+result);
+                            self.location.reload();
+                        }
+                    })
+                    reviewModal.modal('hide');
+                });
+
+                $(".removeBtn").on("click",function(){
+                    var data = {reviewnum: reviewnum};
+                    console.log(data);
+
+                    $.ajax({
+                        url:'/reviews/'+mno+"/"+reviewnum,
+                        type:"DELETE",
+                        contentType:"application/json; charset=utf-8",
+                        dataType: "text",
+                        success:function(result){
+                            console.log("result: "+result);
+                            self.location.reload();
+                        }
+                    })
+                    reviewModal.modal('hide');
+                });
+
+                $(".uploadResult li").click(function(){
+                    var file = $(this).data('file');
+                    console.log(file);
+
+                    $('.imageModal .modal-body').html("<img style='width:100%' src='/display?fileName="+file+"&size=1' >")
+
+                    $(".imageModal").modal("show");
                 });
             });
 
