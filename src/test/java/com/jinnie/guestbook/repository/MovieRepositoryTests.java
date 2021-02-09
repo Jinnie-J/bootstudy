@@ -8,6 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Commit;
 
 import javax.transaction.Transactional;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.IntStream;
 
@@ -41,6 +43,15 @@ public class MovieRepositoryTests {
                 imageRepository.save(movieImage);
             }
         });
+    }
+    @Test
+    public void testGetMovieWithAll(){
+        List<Object[]> result = movieRepository.getMovieWithAll(94L);
+        System.out.println(result);
+
+        for(Object[] arr: result){
+            System.out.println(Arrays.toString(arr));
+        }
     }
 
 }

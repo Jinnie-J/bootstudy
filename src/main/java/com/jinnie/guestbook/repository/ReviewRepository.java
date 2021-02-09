@@ -1,5 +1,6 @@
 package com.jinnie.guestbook.repository;
 
+import com.jinnie.guestbook.entity.Member;
 import com.jinnie.guestbook.entity.Mmember;
 import com.jinnie.guestbook.entity.Movie;
 import com.jinnie.guestbook.entity.Review;
